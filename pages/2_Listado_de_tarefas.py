@@ -18,7 +18,43 @@ worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
 df = pd.DataFrame(worksheet.get_all_records())
 
+# Aplicar color a las filas según el status
+def aplicar_color(status):
+    if status == 'Pendente':
+        return 'background-color: #ffcc00;'  # Amarillo
+    elif status == 'Em execução':
+        return 'background-color: #ff9900;'  # Naranja
+    elif status == 'Finalizada':
+        return 'background-color: #00cc00;'  # Verde
+    else:
+        return ''  # Si no tiene un status definido, no se aplica color
+
+# Mostrar la tabla con estilos
+st.markdown("""
+<style>
+    .green {background-color: #00cc00;}  /* Verde */
+    .yellow {background-color: #ffcc00;}  /* Amarillo */
+    .orange {background-color: #ff9900;}  /* Naranja */
+    .red {background-color: #ff3333;}  /* Rojo */
+</style>
+""", unsafe_allow_html=True)
+
 st.title("📋 Listagem de Tarefas")
+
+
+# Convertir el DataFrame en un HTML con estilos
+html = df_tarefas.to_html(classes="table table-striped", escape=False)
+
+# Colorear las filas según el status
+for i, row in df_tarefas.iterrows():
+    status = row['status']
+    color = aplicar_color(status)
+    html = html.replace(f'<tr><td>{row["id"]}</td>', f'<tr style="{color}"><td>{row["id"]}</td>')
+
+# Mostrar la tabla con los colores
+st.markdown(html, unsafe_allow_html=True)
+
+#=============================================================================================
 
 if df.empty:
     st.warning("Nenhuma tarefa encontrada.")
