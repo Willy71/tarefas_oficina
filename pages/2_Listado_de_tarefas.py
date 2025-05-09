@@ -27,9 +27,9 @@ else:
     prioridade_filtro = st.radio("Filtrar por prioridade", ["Todas", "Urgente", "Alta", "Meia", "Baixa"], horizontal=True)
 
     if prioridade_filtro:
-        df = df[df['prioridade'].isin(prioridade)]
+        df = df[df['prioridade'].isin(prioridade_filtro)]
     if status_filtro:
-        df = df[df['status'].isin(status)]
+        df = df[df['status'].isin(status_filtro)]
 
     st.dataframe(df, use_container_width=True, hide_index=True)
 
