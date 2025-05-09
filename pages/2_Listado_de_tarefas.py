@@ -24,11 +24,11 @@ if df.empty:
     st.warning("Nenhuma tarefa encontrada.")
 else:
     status_filtro = st.radio("Filtrar por status", ["Todos", "Pendente", "Em execução", "Finalizada"], horizontal=True)
-    prioridade_filtro = st.radio("Filtrar por prioridade", ["Todas", "Urgente", "Alta", "Importante", "Meia", "Baixa"], horizontal=True)
+    prioridade_filtro = st.radio("Filtrar por prioridade", ["Todas", "Urgente", "Alta", "Meia", "Baixa"], horizontal=True)
 
-    if prioridade:
+    if prioridade_filtro:
         df = df[df['prioridade'].isin(prioridade)]
-    if status:
+    if status_filtro:
         df = df[df['status'].isin(status)]
 
     st.dataframe(df, use_container_width=True, hide_index=True)
