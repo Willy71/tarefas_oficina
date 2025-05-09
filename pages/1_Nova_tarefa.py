@@ -42,7 +42,7 @@ SHEET_NAME = 'Hoja 1'
 credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
 gc = gspread.authorize(credentials)
 
-columnas_ordenadas = ['id', 'data_inicio', 'tarefa', 'prioridade', 'status', 'data_fin']
+columnas_ordenadas = ['id', 'data_inicio', 'tarefa', 'status', 'prioridade', 'data_fin']
 
 def inicializar_hoja():
     try:
@@ -79,15 +79,15 @@ if worksheet:
 
     with st.form("nova_tarefa_form"):
         tarefa = st.text_input("Descrição da tarefa")
-        prioridade = st.selectbox("Prioridade", ["Importante", "Alta", "Meia", "Baixa", "Urgente"])
         status = st.selectbox("Status", ["Pendente", "Em execução", "Finalizada"])
+        prioridade = st.selectbox("Prioridade", ["Importante", "Alta", "Meia", "Baixa", "Urgente"])
         data_inicio = st.date_input("Data de início", value=datetime.date.today())
         data_fin = st.date_input("Data final", value=datetime.date.today())
         submitted = st.form_submit_button("Salvar tarefa")
 
     if submitted:
         novo_id = gerar_id_unico(existing_data)
-        nova_linha = [novo_id, str(data_inicio), tarefa, prioridade, status, str(data_fin)]
+        nova_linha = [novo_id, str(data_inicio), tarefa, status, prioridade, str(data_fin)]
         try:
             worksheet.append_row(nova_linha)
             st.success("✅ Tarefa adicionada com sucesso!")
