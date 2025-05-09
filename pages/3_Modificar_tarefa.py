@@ -36,5 +36,5 @@ else:
         linha = dados[dados['id'] == tarefa_id].index[0] + 2  # +2 pois o índice começa em 0 e a planilha tem header na 1
         worksheet.update(f'B{linha}', [[str(data_inicio), tarefa, prioridade, status, str(data_fin)]])
         st.success("✅ Tarefa atualizada com sucesso!")
-        st.experimental_rerun()
+        st.rerun()
 
