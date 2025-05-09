@@ -51,7 +51,7 @@ df_tarefas = cargar_datos(worksheet)
 
 # Mostrar las tareas existentes en una tabla
 st.subheader("Listado de Tarefas")
-st.dataframe(df_tarefas)
+st.dataframe(df_tarefas, hide_index=True)
 
 # Selección de tarea para modificar
 tarefa_id = st.selectbox("Seleccionar Tarefa para Modificar", df_tarefas['id'].values)
@@ -90,8 +90,8 @@ with st.form("form_modificar_tarefa"):
         df_tarefas.loc[df_tarefas['id'] == tarefa_id, 'tarefa'] = tarefa
         df_tarefas.loc[df_tarefas['id'] == tarefa_id, 'prioridade'] = prioridade
         df_tarefas.loc[df_tarefas['id'] == tarefa_id, 'status'] = status
-        df_tarefas.loc[df_tarefas['id'] == tarefa_id, 'data_fin'] = data_fin
-
+        df_tarefas.loc[df_tarefas['id'] == tarefa_id, 'data_fin'] = str(data_fin)  # Convertir a string
+        
         # Actualizar Google Sheets
         for index, row in df_tarefas.iterrows():
             worksheet.update_cell(index + 2, 1, row['id'])  # Comenzamos en la fila 2 para evitar sobrescribir los encabezados
@@ -99,7 +99,8 @@ with st.form("form_modificar_tarefa"):
             worksheet.update_cell(index + 2, 3, row['tarefa'])
             worksheet.update_cell(index + 2, 4, row['status'])
             worksheet.update_cell(index + 2, 5, row['prioridade'])
-            worksheet.update_cell(index + 2, 6, row['data_fin'])
+            worksheet.update_cell(index + 2, 6, str(row['data_fin']))  # Convertir a string
+
 
         st.success("Tarefa modificada com sucesso!")
 
