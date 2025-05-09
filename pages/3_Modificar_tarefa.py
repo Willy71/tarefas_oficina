@@ -65,7 +65,7 @@ with st.form("form_modificar_tarefa"):
     tarefa = st.text_input("Tarefa", value=tarefa_row["tarefa"])
 
     # Opciones de Prioridad
-    prioridade_opcoes = ["Importante", "Alta", "Meia", "Baixa", "Urgente"]
+    prioridade_opcoes = ["Urgente", "Alta", "Meia", "Baixa"]
     prioridade_valor = tarefa_row["prioridade"]
     if prioridade_valor not in prioridade_opcoes:
         prioridade_valor = "Meia"  # Valor por defecto si hay un error
@@ -88,8 +88,8 @@ with st.form("form_modificar_tarefa"):
     if submitted:
         # Actualización de la tarea en el DataFrame
         df_tarefas.loc[df_tarefas['id'] == tarefa_id, 'tarefa'] = tarefa
-        df_tarefas.loc[df_tarefas['id'] == tarefa_id, 'prioridade'] = prioridade
         df_tarefas.loc[df_tarefas['id'] == tarefa_id, 'status'] = status
+        df_tarefas.loc[df_tarefas['id'] == tarefa_id, 'prioridade'] = prioridade
         df_tarefas.loc[df_tarefas['id'] == tarefa_id, 'data_fin'] = str(data_fin)  # Convertir a string
         
         # Actualizar Google Sheets
