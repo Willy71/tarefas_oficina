@@ -18,13 +18,13 @@ worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
 df = pd.DataFrame(worksheet.get_all_records())
 
-st.title("📋 Lista de Tarefas")
+st.title("📋 Listagem de Tarefas")
 
 if df.empty:
     st.warning("Nenhuma tarefa encontrada.")
 else:
-    status = st.radio("Filtrar por status", ["Todos", "Pendente", "Em execução", "Finalizada"], horizontal=True)
-    prioridade = st.radio("Filtrar por prioridade", ["Todas", "Urgente", "Alta", "Meia", "Baixa"], horizontal=True)
+    prioridade = st.multiselect("Filtrar por prioridade", options=df['prioridade'].unique())
+    status = st.multiselect("Filtrar por status", options=df['status'].unique())
 
     if prioridade:
         df = df[df['prioridade'].isin(prioridade)]
@@ -32,4 +32,3 @@ else:
         df = df[df['status'].isin(status)]
 
     st.dataframe(df, use_container_width=True, hide_index=True)
-
