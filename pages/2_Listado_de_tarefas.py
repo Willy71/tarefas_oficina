@@ -18,44 +18,22 @@ worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
 df = pd.DataFrame(worksheet.get_all_records())
 
-# Íconos para status
-status_icons = {
-    "Pendente": "🕓 Pendente",
-    "Em execução": "⚙️ Em execução",
-    "Finalizada": "✅ Finalizada"
-}
+st.title("📋 Listagem de Tarefas")
 
-# Íconos para prioridade
-prioridade_icons = {
-    "Urgente": "🔥 Urgente",
-    "Alta": "🔴 Alta",
-    "Meia": "🟡 Meia",
-    "Baixa": "🟢 Baixa"
-}
+if df.empty:
+    st.warning("Nenhuma tarefa encontrada.")
+else:
+    status = st.radio("Filtrar por status", ["Todos", "Pendente", "Em execução", "Finalizada"], horizontal=True)
+    prioridade = st.radio("Filtrar por prioridade", ["Todas", "Urgente", "Alta", "Meia", "Baixa"], horizontal=True)
 
-# Aplicar íconos
-df["Status"] = df["status"].map(status_icons)
-df["Prioridade"] = df["prioridade"].map(prioridade_icons)
+    #prioridade = st.multiselect("Filtrar por prioridade", options=df['prioridade'].unique())
+    #status = st.multiselect("Filtrar por status", options=df['status'].unique())
 
-# Filtros
-status_opcao = st.radio("Filtrar por Status", ["Todos"] + list(status_icons.keys()), horizontal=True)
-prioridade_opcao = st.radio("Filtrar por Prioridade", ["Todas"] + list(prioridade_icons.keys()), horizontal=True)
 
-if status_opcao != "Todos":
-    df = df[df["status"] == status_opcao]
+    if prioridade != "Todas":
+        df = df[df['prioridade'] == prioridade]
 
-if prioridade_opcao != "Todas":
-    df = df[df["prioridade"] == prioridade_opcao]
+    if status != "Todos":
+        df = df[df['status'] == status]
 
-# Mostrar DataFrame con íconos
-st.dataframe(
-    df[["id", "tarefa", "Status", "Prioridade", "data", "data_fin"]],
-    column_config={
-        "tarefa": "Tarefa",
-        "Status": st.column_config.TextColumn("Status"),
-        "Prioridade": st.column_config.TextColumn("Prioridade"),
-        "data": "Data Início",
-        "data_fin": "Data Fim"
-    },
-    hide_index=True
-)
+    st.dataframe(df, use_container_width=True, hide_index=True)
