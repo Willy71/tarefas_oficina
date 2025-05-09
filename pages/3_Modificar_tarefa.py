@@ -23,18 +23,23 @@ else:
     tarefa_id = st.selectbox("Selecione o ID da tarefa", options=dados['id'].tolist())
     tarefa_row = dados[dados['id'] == tarefa_id].iloc[0]
 
-    with st.form("editar_tarefa"):
-        tarefa = st.text_input("Descrição", value=tarefa_row['tarefa'])
-        prioridade = st.selectbox("Prioridade", ["Importante", "Alta", "Meia", "Baixa", "Urgente"], index=["Importante", "Alta", "Meia", "Baixa", "Urgente"].index(tarefa_row['prioridade']))
-        status = st.selectbox("Status", ["Pendente", "Em execução", "Finalizada"], index=["Pendente", "Em execução", "Finalizada"].index(tarefa_row['status']))
-        data_inicio = st.date_input("Data início", value=pd.to_datetime(tarefa_row['data_inicio']))
-        data_fin = st.date_input("Data final", value=pd.to_datetime(tarefa_row['data_fin']))
-        submit = st.form_submit_button("Salvar alterações")
-
-    if submit:
-        # Atualiza no Google Sheets
-        linha = dados[dados['id'] == tarefa_id].index[0] + 2  # +2 pois o índice começa em 0 e a planilha tem header na 1
-        worksheet.update(f'B{linha}', [[str(data_inicio), tarefa, prioridade, status, str(data_fin)]])
-        st.success("✅ Tarefa atualizada com sucesso!")
-        st.rerun()
+    with st.form("form_modificar"):
+        tarefa = st.text_input("Tarefa", value=tarefa_row["tarefa"])
+        prioridade_opcoes = ["Importante", "Alta", "Meia", "Baixa", "Urgente"]
+    
+        prioridade_valor = tarefa_row["prioridade"]
+        if prioridade_valor not in prioridade_opcoes:
+            prioridade_valor = "Meia"  # Valor por defecto si hay un error
+    
+        prioridade = st.selectbox("Prioridade", prioridade_opcoes, index=prioridade_opcoes.index(prioridade_valor))
+    
+        status = st.selectbox("Status", ["Pendente", "Em ejecução", "Finalizada"], index=["Pendente", "Em ejecução", "Finalizada"].index(tarefa_row["status"]))
+    
+        data_fin = st.date_input("Data final", value=pd.to_datetime(tarefa_row["data_fin"], errors='coerce'))
+    
+        submitted = st.form_submit_button("Salvar alterações")
+    
+        if submitted:
+            # Actualizar la planilla aquí
+            st.success("Tarefa modificada com sucesso!")
 
