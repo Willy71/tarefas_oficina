@@ -80,7 +80,7 @@ if worksheet:
     with st.form("nova_tarefa_form"):
         tarefa = st.text_input("Descrição da tarefa")
         status = st.selectbox("Status", ["Pendente", "Em execução", "Finalizada"])
-        prioridade = st.selectbox("Prioridade", ["Importante", "Alta", "Meia", "Baixa", "Urgente"])
+        prioridade = st.selectbox("Prioridade", ["Urgente", "Alta", "Meia", "Baixa" ])
         data_inicio = st.date_input("Data de início", value=datetime.date.today())
         data_fin = st.date_input("Data final", value=datetime.date.today())
         submitted = st.form_submit_button("Salvar tarefa")
