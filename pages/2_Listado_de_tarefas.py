@@ -18,7 +18,7 @@ worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
 
 df = pd.DataFrame(worksheet.get_all_records())
 
-st.title("📋 Listagem de Tarefas")
+st.title("📋 Lista de Tarefas")
 
 if df.empty:
     st.warning("Nenhuma tarefa encontrada.")
