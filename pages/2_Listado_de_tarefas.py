@@ -29,9 +29,11 @@ else:
     #prioridade = st.multiselect("Filtrar por prioridade", options=df['prioridade'].unique())
     #status = st.multiselect("Filtrar por status", options=df['status'].unique())
 
-    if prioridade:
-        df = df[df['prioridade'].isin(prioridade)]
-    if status:
-        df = df[df['status'].isin(status)]
+
+    if prioridade != "Todas":
+        df = df[df['prioridade'] == prioridade]
+
+    if status != "Todas":
+        df = df[df['status'] == status]
 
     st.dataframe(df, use_container_width=True, hide_index=True)
