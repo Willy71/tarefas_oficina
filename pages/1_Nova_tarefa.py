@@ -91,7 +91,7 @@ if worksheet:
         try:
             worksheet.append_row(nova_linha)
             st.success("✅ Tarefa adicionada com sucesso!")
-            st.experimental_rerun()
+            st.rerun()
         except Exception as e:
             st.error(f"Erro ao salvar tarefa: {str(e)}")
 
