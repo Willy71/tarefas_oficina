@@ -31,5 +31,5 @@ else:
     if status:
         df = df[df['status'].isin(status)]
 
-    st.dataframe(df, use_container_width=True)
+    st.dataframe(df, use_container_width=True, hide_index=True)
 
