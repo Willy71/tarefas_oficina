@@ -43,10 +43,10 @@ st.title("📋 Listagem de Tarefas")
 
 
 # Convertir el DataFrame en un HTML con estilos
-html = df_tarefas.to_html(classes="table table-striped", escape=False)
+html = df.to_html(classes="table table-striped", escape=False)
 
 # Colorear las filas según el status
-for i, row in df_tarefas.iterrows():
+for i, row in df.iterrows():
     status = row['status']
     color = aplicar_color(status)
     html = html.replace(f'<tr><td>{row["id"]}</td>', f'<tr style="{color}"><td>{row["id"]}</td>')
