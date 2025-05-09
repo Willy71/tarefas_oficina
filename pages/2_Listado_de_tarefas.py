@@ -33,7 +33,7 @@ else:
     if prioridade != "Todas":
         df = df[df['prioridade'] == prioridade]
 
-    if status != "Todas":
+    if status != "Todos":
         df = df[df['status'] == status]
 
     st.dataframe(df, use_container_width=True, hide_index=True)
