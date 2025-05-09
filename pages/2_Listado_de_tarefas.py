@@ -23,8 +23,8 @@ st.title("📋 Lista de Tarefas")
 if df.empty:
     st.warning("Nenhuma tarefa encontrada.")
 else:
-    prioridade = st.multiselect("Filtrar por prioridade", options=df['prioridade'].unique())
-    status = st.multiselect("Filtrar por status", options=df['status'].unique())
+    status_filtro = st.radio("Filtrar por status", ["Todos", "Pendente", "Em execução", "Finalizada"], horizontal=True)
+    prioridade_filtro = st.radio("Filtrar por prioridade", ["Todas", "Urgente", "Alta", "Importante", "Meia", "Baixa"], horizontal=True)
 
     if prioridade:
         df = df[df['prioridade'].isin(prioridade)]
