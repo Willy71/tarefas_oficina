@@ -49,7 +49,7 @@ if prioridade_opcao != "Todas":
 
 # Mostrar DataFrame con íconos
 st.dataframe(
-    df[["tarefa", "Status", "Prioridade", "data", "data_fin"]],
+    df[["id", "tarefa", "Status", "Prioridade", "data", "data_fin"]],
     column_config={
         "tarefa": "Tarefa",
         "Status": st.column_config.TextColumn("Status"),
