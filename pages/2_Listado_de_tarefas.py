@@ -1,21 +1,22 @@
 import streamlit as st
 import pandas as pd
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 
-# Autenticación
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["gcp_service_account"], scope)
-client = gspread.authorize(creds)
+# Configuração da página
+st.set_page_config(page_title="Listagem de Tarefas", page_icon="📋", layout="wide")
 
-# Variables
-SPREADSHEET_KEY = st.secrets["SPREADSHEET_KEY"]
-SHEET_NAME = "tarefas"
+# Conectar com Google Sheets
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+SERVICE_ACCOUNT_INFO = st.secrets["gsheets"]
+SPREADSHEET_KEY = '1oU0C2VNJSsb0psZQOYEZd7YuXX8mgqfLP8onYc-EOjU'
+SHEET_NAME = 'Hoja 1'
 
-# Cargar datos
-worksheet = client.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
-data = worksheet.get_all_records()
-df = pd.DataFrame(data)
+credentials = Credentials.from_service_account_info(SERVICE_ACCOUNT_INFO, scopes=SCOPES)
+gc = gspread.authorize(credentials)
+worksheet = gc.open_by_key(SPREADSHEET_KEY).worksheet(SHEET_NAME)
+
+df = pd.DataFrame(worksheet.get_all_records())
 
 # Íconos para status
 status_icons = {
